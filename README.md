@@ -10,8 +10,8 @@ Mimari, tek bir tüketici ekran kartı (**NVIDIA RTX 4070 Ti 12GB**) üzerinde e
 
 ## 🛠️ Kullanılan Teknolojiler Nelerdir?
 
-* **Saf PyTorch (`torch` & `torch.nn`):** Modelin içindeki tüm yapay sinir ağı katmanları, matris çarpımları ve dikkat (attention) mekanizmaları dışarıdan hazır bir kütüphane (`transformers` vb.) çağrılmadan sıfırdan kodlanmıştır.
-* **Donanım Dostu Matris Tasarımı (FlashAttention & Tensor Core Uyumu):** Modelin içindeki tüm sayı boyutları (`512`, `64`, `1408`, `16384`), ekran kartının (GPU) işlemleri tek seferde ve en hızlı şekilde yapabilmesi için `64` ve `128`'in tam katları olarak tasarlanmıştır.
+* **Saf PyTorch (`torch` & `torch.nn`):** Modelin içindeki tüm yapay sinir ağı katmanları, matris çarpımları ve dikkat (attention) mekanizmaları dışarıdan hazır bir kütüphane (`transformers` vb.) çağrılmadan sıfırdan kodlanmıştır. Herhangi bir önceden eğitilmiş modelin ağırlıkları kullanılmamıştır.
+* **Donanım Dostu Matris Tasarımı:** Modelin içindeki tüm sayı boyutları (`512`, `64`, `1408`, `16384`), ekran kartının (GPU) işlemleri tek seferde ve en hızlı şekilde yapabilmesi için `64` ve `128`'in tam katları olarak tasarlanmıştır.
 * **KV-Cache (Hafıza Önbellekleme):** Model yeni bir kelime üretirken, cümlenin başındaki kelimeleri her seferinde tekrar tekrar hesaplamak yerine hafızasında (`past_key_value`) tutar; böylece çok daha hızlı metin üretir.
 * **Esnek Ölçeklenebilirlik (`Preset` Sistemi):** Tek bir kod üzerinden donanım gücüne göre **25 Milyon**, **35 Milyon**, **40 Milyon** veya **60 Milyon** parametrelik farklı büyüklüklerde modeller kurulabilir.
 
