@@ -138,7 +138,7 @@ from tokenizers import Tokenizer
 tokenizer = Tokenizer.from_file("atmaca_model_tokenizer.json")
 
 # Hukuki bir cümleyi tokenize edin
-cumle = "Cumhuriyet Başsavcılığı'nca yürütülen soruşturma sonucunda hazırlanan iddianame..."
+cumle = "Cumhuriyet Başsavcılığı'nca yürütülen soruşturma sonucunda hazırlanan iddianame Ağır Ceza Mahkemesi'nce kabul edildi."
 encoding = tokenizer.encode(cumle)
 
 print("Token ID'leri:", encoding.ids)
