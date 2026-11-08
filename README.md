@@ -109,3 +109,37 @@ Aşağıdaki çıktılar, ~35M-40M parametre ölçeğinde eğitilen modelin hiç
 * **Soru:** `İş yerinde 3 yıldır çalışıyorum, kendi isteğimle istifa edersem kıdem tazminatı alabilir miyim?`
   * **Atmaca:** *"İş Kanunu kapsamında kıdem tazminatına hak kazanabilmek için işçinin en az 6 ay önce bildirim yapılması zorunludur. İşçinin haklı nedene dayanmayan feshi, emeklilik, muvazzaf askerlik, kadın işçinin evliliği veya işverenin haklı nedenle feshi gibi özel sebepler ile kıdem tazminatı talep etme hakkı bulunmaktadır. Bu şartların yerine getirilmemesi durumunda kıdem tazminatı hakkı doğmaz."*
   * **🔍 Analiz:** ❌ **Sayısal Halüsinasyon.** İstisnalar sıralanmış ancak "en az 6 ay önce bildirim" şeklinde hatalı bir şart üretilmiştir.
+
+
+---
+
+## ✂️ Özel Türkçe Byte-Level BPE Tokenizer Performansı (`vocab_size=16,384`)
+
+Bu projede kullanılan tokenizer; Türkçe'nin eklemeli yapısına, kesme işaretli eklerine (`'nca`, `'nce`) ve hukuki terminolojiye özel Regex kurallarıyla sıfırdan eğitilmiştir (`atmaca_model_tokenizer.json`). 
+
+Küresel amaçlı büyük modellerin (örn. OpenAI GPT-4o `o200k_base`) Türkçe hukuk metinlerini nasıl parçaladığını, bizim özel tokenizer'ımız ile kıyaslayan **Hukuki Stres Testi (Benchmark)** sonuçları aşağıdadır:
+
+### 📊 Token Sıkıştırma Verimliliği Kıyaslaması
+
+| Test Cümlesi | Atmaca Tokenizer | GPT-4o Tokenizer | Tasarruf / Verim Kazancı |
+| :--- | :---: | :---: | :---: |
+| **1. Cumhuriyet Başsavcılığı'nca yürütülen soruşturma sonucunda hazırlanan iddianame Ağır Ceza Mahkemesi'nce kabul edildi.** | **17 Token** | 35 Token | 🎯 **%51.4 daha az token** |
+| **2. Sanığın eyleminin 5237 sayılı TCK m. 86/1 kapsamında kasten yaralama suçunu oluşturduğu gözetilmeden eksik incelemeyle hüküm kurulması bozmayı gerektirmiştir.** | **27 Token** | 49 Token | 🎯 **%44.9 daha az token** |
+| **3. İlamsız icra takibine yapılan itirazın hükümden düşürülmesi istemiyle açılan itirazın kaldırılması davasında görevli mahkeme İcra Mahkemesidir.** | **24 Token** | 45 Token | 🎯 **%46.7 daha az token** |
+
+### 🛠️ Tokenizer'ı Kendi Bilgisayarınızda Test Etme
+
+Depodaki `atmaca_model_tokenizer.json` dosyasını indirerek bu testi kendi ortamınızda anında çalıştırabilirsiniz:
+
+```python
+from tokenizers import Tokenizer
+
+# Tokenizer'ı yükleyin
+tokenizer = Tokenizer.from_file("atmaca_model_tokenizer.json")
+
+# Hukuki bir cümleyi tokenize edin
+cumle = "Cumhuriyet Başsavcılığı'nca yürütülen soruşturma sonucunda hazırlanan iddianame..."
+encoding = tokenizer.encode(cumle)
+
+print("Token ID'leri:", encoding.ids)
+print("Parçalanmış Hali:", [tokenizer.decode([tid]) for tid in encoding.ids])
