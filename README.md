@@ -115,7 +115,7 @@ Aşağıdaki çıktılar, ~35M-40M parametre ölçeğinde eğitilen modelin hiç
 
 ## ✂️ Özel Türkçe Byte-Level BPE Tokenizer Performansı (`vocab_size=16,384`)
 
-Bu projede kullanılan tokenizer; Türkçe'nin eklemeli yapısına, kesme işaretli eklerine (`'nca`, `'nce`) ve hukuki terminolojiye özel Regex kurallarıyla sıfırdan eğitilmiştir (`atmaca_model_tokenizer.json`). 
+Bu projede kullanılan tokenizer; Türkçe'nin eklemeli yapısına, kesme işaretli eklerine (`'nca`, `'nce`) ve hukuki terminolojiye özel Regex kurallarıyla sıfırdan eğitilmiştir. Eğitimde yargıtay kararları, hukuki mevzuat soru ve cevapları ve temel kanun maddeleri kullanıldı. (`atmaca_model_tokenizer.json`). 
 
 Küresel amaçlı büyük modellerin (örn. OpenAI GPT-4o `o200k_base`) Türkçe hukuk metinlerini nasıl parçaladığını, bizim özel tokenizer'ımız ile kıyaslayan **Hukuki Stres Testi (Benchmark)** sonuçları aşağıdadır:
 
